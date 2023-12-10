@@ -1,0 +1,29 @@
+.board {
+    display: grid;
+    height: 300px;
+    width: 300px;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    border: 1px solid black;
+    gap: 2px;
+    padding: 2px;
+    background-color: rgb(17, 136, 120);
+  
+    box-shadow: 0.25em 0 0.75em rgba(0,0,0,.25),
+                0.125em 0.125em 0.25em rgba(0,0,0,.15);
+}
+  
+.cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 2rem;
+    border: 1px solid rgb(255, 255, 255);
+    background: rgb(255, 255, 209);
+    cursor: pointer;
+
+
+    border-radius: 50%;
+    margin:7px 3.5px;
+}
