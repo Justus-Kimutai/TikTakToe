@@ -138,7 +138,7 @@ body{
   
   @media(max-width:640px){
     .heading{
-      margin-top: 3.5em;
+      margin-top: 10em;
     }
   
     .container{
