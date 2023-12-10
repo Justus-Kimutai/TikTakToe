@@ -8,17 +8,43 @@
 </head>
 
     <body>
-        
-        <div class="BoardsDiv">
-            <h1 class="turn"></h1>
-            <!-- <div class="playAgainDiv">
-                <button id="playAgain">PLay Again</button>
-            </div> -->
-            <div class="board"></div>
+
+        <div class="container">
+            
+            <div class="IntroScreen">
+                <h1 class="heading">Connect Four</h1>
+                <div class="character_box">
+                    <div class="character">
+                        <div class="character_img">
+                            <img src="images/How to draw Sonic the Hedgehog's face - Sketchok easy drawing guides.jpeg" alt="A picture of Hedgehog">
+                        </div>
+                        <label for="playerOneName" class="characterName">Input Player one Name</label>
+                        <input  type="text" id="playerOneName">
+                    </div>
+                    <div class="character">
+                        <div class="character_img">
+                            <img src="images/Thermo Megabot.jpeg" alt="">
+                        </div>
+                        <label for="playertwoName" class="characterName">Input Player two Name</label>
+                        <input  type="text" id="playertwoName">
+                    </div>
+                </div>
+                <div class="startBtnDiv">
+                    <button class="startBtn">Start</button>
+                </div>
+            </div>
+            
+            <div class="BoardsDiv">
+                <h1 class="turn"></h1>
+                <div class="playAgainDiv">
+                    <button id="playAgain">PLay Again</button>
+                </div>
+                <div class="board"></div>
+            </div>
+            
         </div>
         
         <script src="app.js"></script>
-        <!-- <script src="test.js"></script> -->
     </body>
 
 </html>

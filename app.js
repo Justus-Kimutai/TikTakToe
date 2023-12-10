@@ -20,6 +20,7 @@ function GameBoard(){
 
         if(board[row][column].getValue() === 0){
             board[row][column].addValue(player);
+            cellMarked = false;
         }else{
             cellMarked = true;
             return;
@@ -61,8 +62,19 @@ function cell(){
 
 
 function GameController(){
-    let playerOneName = 'Captain';
-    let playerTwoName = 'Winner';
+    let playerOneName = '';
+    let playerTwoName = '';
+
+    const setNames = (name1,name2)=>{
+        playerOneName = name1;
+        playerTwoName = name2;
+    
+        players[0].name = playerOneName;
+        players[1].name = playerTwoName;
+    
+        console.log(players[0].name ,players[1].name );
+    
+    }
 
     const board = GameBoard();
 
@@ -95,6 +107,24 @@ function GameController(){
         console.log(`${getActivePlayer().name}'s turn`);
     }
 
+    const checkZero = (arr)=>{
+
+        let newArr = []
+    
+        for(i=0;i<arr.length;i++){
+            for(j=0;j<arr[i].length;j++){
+                newArr.push(arr[i][j].getValue());
+            }
+        }
+    
+        for(q=0;q<newArr.length;q++){
+            if(newArr[q] === 0){
+                return false;
+            }
+        }
+        return true;
+    }
+
     const areAllEqualButNotZero = (arr)=>{
         // Check if the array is not empty
         if (arr.length === 0) {
@@ -115,7 +145,6 @@ function GameController(){
         const currentBoardState = board.getBoard();
 
         if(!board.getCellMarked()){
-            console.log(`I'm in`);
 
             //Check horizontal 
             for(i=0;i<currentBoardState.length;i++){
@@ -168,6 +197,12 @@ function GameController(){
 
                 return false;
             }
+            if(checkLeftSlant(currentBoardState))  {
+                console.log(`${getActivePlayer().name} is the winner`);
+                console.table(board.printBoard());
+                winner = true;
+            };
+
 
             //check diagonal to the right
             const checkRightSlant = (arr)=>{
@@ -187,64 +222,110 @@ function GameController(){
                 return false;
             }
 
-            if(checkLeftSlant(currentBoardState))  {
-                console.log(`${getActivePlayer().name} is the winner`);
-                console.table(board.printBoard());
-                winner = true;
-            };
             if(checkRightSlant(currentBoardState)) {
                 console.log(`${getActivePlayer().name} is the winner`);
                 console.table(board.printBoard());
                 winner = true;
             };
 
+            //check for potential ties
+            if(checkZero(currentBoardState)){
+                winner = null;
+                console.log('tied');
+            }
+
+            if(winner || winner === null) return;
             switchPlayerTurn();
+            printNewRound();
+
+        }else{
+            alert(`Can't place there`);
         }
 
-        if(winner) return;
-
-        printNewRound();
     }
 
+    function playAgain(){
+        winner = false;
+        board.resetBoard();
+    }
+
+    
     return{
         playRound,
         getWinner,
+        playAgain,
+        setNames,
         getActivePlayer,
         getBoard: board.getBoard
     }
+
 }
+
 
 function screenController(){
     const game = GameController();
+
     const playerTurnDiv = document.querySelector('.turn');
     const boardDiv = document.querySelector('.board');
-    const winner = game.getWinner();
+    const displayWinner = document.querySelector('.playAgainDiv');
+    const introScreen = document.querySelector('.IntroScreen');
+    const playAgainButton = document.querySelector('#playAgain');
+    const startBtn = document.querySelector('.startBtn');
+    const playerOneName = document.querySelector('#playerOneName');
+    const playerTwoName = document.querySelector('#playertwoName');
 
     const updateScreen = ()=>{
         boardDiv.textContent = "";
 
         const board = game.getBoard();
         const activePlayer = game.getActivePlayer();
+        const winner = game.getWinner();
     
         playerTurnDiv.textContent = `${activePlayer.name}'s turn`;
     
         board.forEach((row,rowIndex) => {
             row.forEach((cell,columnIndex)=>{
-                const cellButton = document.createElement("button");
+                const cellButton = document.createElement("span");
                 cellButton.classList.add("cell");
                 cellButton.dataset.row = rowIndex;
                 cellButton.dataset.column = columnIndex;
-                cellButton.textContent = cell.getValue();
+                // cellButton.textContent = cell.getValue();
+
+                if(cell.getValue() === 1){
+                    cellButton.textContent = 'X';
+
+                }else if(cell.getValue() === 2){
+                    cellButton.textContent = 'O'
+                }else{
+                    cellButton.textContent = ''
+                }
 
                 boardDiv.appendChild(cellButton);
             });
         }); 
 
         if(winner){
-            playerTurnDiv.textContent = `${activePlayer.name} is the winner`
-            console.log(`I'm the winner`);
+            playerTurnDiv.textContent = `${activePlayer.name} is the winner`;
+            displayWinner.style = `
+                                  display: flex;
+                                  justify-content: center;
+                                  background-color: rgba(255, 255, 255, 0.658);
+                                  align-items: center;`;
+            playerOneName.value = '';
+            playerTwoName.value = '';
+            return;
+        }else if(winner === null){
+            playerTurnDiv.textContent = `A tie`;
+            displayWinner.style = `
+                                display: flex;
+                                justify-content: center;
+                                background-color: rgba(255, 255, 255, 0.658);
+                                align-items: center;`;
+            playerOneName.value = '';
+            playerTwoName.value = '';
             return;
         }
+ 
     }
 
     function clickHandlerBoard(e){
@@ -257,7 +338,34 @@ function screenController(){
 
     boardDiv.addEventListener("click", clickHandlerBoard);
 
-    updateScreen()
+    playAgainButton.addEventListener("click",()=>{
+        game.playAgain();
+        updateScreen();
+        displayWinner.style.display = 'none';
+    
+        introScreen.style = `
+                                  display: flex;
+                                  align-items: center;
+                                  justify-content: center;
+                                  flex-direction: column;
+                                  z-index:100;
+        `
+    });
+
+    startBtn.addEventListener("click",()=>{
+
+        if(playerOneName.value === "" || playerTwoName.value === "" ){
+          playerOneName.value = ''
+          playerTwoName.value = ''
+          alert("Insert Valid name");
+          return;
+        }
+        game.setNames(playerOneName.value,playerTwoName.value);
+        introScreen.style.display = 'none';
+        updateScreen();
+        
+      })
+
 
 }
 screenController();

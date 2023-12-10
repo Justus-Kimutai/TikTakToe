@@ -1,29 +1,157 @@
-.board {
+body{
+    background: rgb(255, 249, 162);
+    font-family: sans-serif;
+}
+.container{
+    position: relative;
+    margin: 0 auto;
+    width: 60%; 
+  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.turn{
+    text-align: center;
+}
+.board{
     display: grid;
     height: 300px;
     width: 300px;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
-    border: 1px solid black;
-    gap: 2px;
-    padding: 2px;
-    background-color: rgb(17, 136, 120);
-  
-    box-shadow: 0.25em 0 0.75em rgba(0,0,0,.25),
-                0.125em 0.125em 0.25em rgba(0,0,0,.15);
+    background-color: rgb(10, 21, 85);
+    /* gap: 1px; */
+    box-sizing: border-box;
 }
-  
-.cell {
+
+.cell{
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
     font-size: 2rem;
-    border: 1px solid rgb(255, 255, 255);
-    background: rgb(255, 255, 209);
+    background: #fff;
     cursor: pointer;
-
-
-    border-radius: 50%;
-    margin:7px 3.5px;
+    border: 1px solid rgb(10, 21, 85);
+    padding: .2em;
+    box-sizing: border-box;
 }
+
+.BoardsDiv{
+    position: relative;
+    max-width: 300px;
+    margin-top: 3em;
+}
+
+.playAgainDiv{
+    position: absolute;
+    z-index: 100;
+    display: none;
+    height: 300px;
+    width: 300px;
+}
+  
+.character_img img{
+    border-radius: 100px;
+    height: 100px;
+  
+    box-shadow: 0.25em 0.25em 0.75em rgba(0,0,0,.25),
+                0.125em 0.125em 0.25em rgba(0,0,0,.15);
+  
+  }
+  
+  .IntroScreen{
+    position: absolute;
+    background: rgb(255, 249, 162);
+    padding: 20em;
+    z-index: 100;
+  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  
+  
+  .character_box{
+    margin-top: 10px;
+    margin-bottom: 20px;
+    display: flex;
+  
+    width: 100%;
+    justify-content: space-around;
+  }
+  
+  .character{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin: 15px;
+  
+    border: 1px solid;
+    padding: 1.25em 0.2em;
+    border-radius: 20px;
+  }
+  .characterName{
+    margin-top: 15px;
+  }
+  
+  input{
+    border: none;
+    margin-top: .5em;
+    box-shadow: .1em 0.35em 0.75em rgba(0, 0, 0, 0.13);
+    font-size: 1.2rem;
+  }
+  
+  input:focus{
+    display: inline-block;
+    outline: none;
+    border-bottom:1px solid rgba(0, 0, 0, 0.473) ;
+    background:rgb(255, 249, 162);
+    box-shadow: none;
+  }
+  #playerOneName{
+    color: blue;
+  }
+  #playertwoName{
+    color: red;
+  }
+  
+  .startBtn{
+    margin: .75em 0;
+    font-size: 1.2rem;
+  
+  
+    outline: none;
+    border: none;
+    padding: .2em .75em;
+    background: rgb(255, 249, 162);
+    border-radius: 10px;
+    box-shadow: 0.25em 0 0.75em rgba(0,0,0,.25),
+                0.125em 0.125em 0.25em rgba(0,0,0,.15);
+  }
+  .startBtn:hover{
+    opacity: .7;
+  }
+  
+  @media(max-width:640px){
+    .heading{
+      margin-top: 3.5em;
+    }
+  
+    .container{
+      margin: 0 auto;
+      width: 300px;
+    }
+    .character_box{
+        flex-direction: column;
+    }
+    .character{
+        border: none;
+    }
+    .IntroScreen{
+      padding:0 8em;
+    }
+  }
